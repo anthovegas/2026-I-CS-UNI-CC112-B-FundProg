@@ -5,6 +5,10 @@
 #include "punteros.h"
 #include "vector.h"
 #include "matrix.h"
+#include "cmatrix.h"
+#include "cvector.h"
+#include "shapes/shapes.h"
+#include "DemoVector.h"
 
 // Antes: g++ -std=c++2b main.cpp arit.cpp -o main
 // Ahora                : make
@@ -19,8 +23,21 @@ int main() {
     // DemoUtil();
     // DemoSorting();
     // DemoSearch();
-    // DemoPunteros1();
-    // DemoPunteros2Vector();
-    DemoMatrix1(); 
+    //  DemoPunteros1();
+    // // DemoPunteros2Vector();
+    // DemoMatrix1();  
+
+    // DemoCVector();
+
+    // DemoPointersVector2();
+    // DemoPointersVector3();
+    // DemoPointersVector4();
+    // DemoPointersVector5();
+    
+    // DemoCMatrix1();
+    // DemoShapes();
+
+    DemoVector();
+    DemoConcurrentVector();
     return 0;
 }

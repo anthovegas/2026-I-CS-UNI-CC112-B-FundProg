@@ -1,6 +1,7 @@
 #ifndef __MATRIX_H__
 #define __MATRIX_H__
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 #include <iostream>
 =======
@@ -16,6 +17,13 @@ void ReadMatrix(TP **pMat, const size_t rows, const size_t cols);
 void PrintMatrix(TP **pMat, const size_t rows, const size_t cols);
 void DeleteMatrix(TP **&pMat, const size_t rows);
 =======
+=======
+#include <iostream>  // cout, cin, endl
+#include <cstddef>   // size_t
+#include "types.h"
+using namespace std;
+
+>>>>>>> upstream/17-Traits
 template<typename TP> 
 void CreateMatrix(TP **&pMat, size_t rows, size_t cols){
     pMat = new TP*[rows];
@@ -30,6 +38,10 @@ void ReadMatrix(TP **pMat, size_t rows, size_t cols,
         for (size_t j = 0; j < cols; j++){
             os << "Ingrese pMat[" << i << "][" << j << "]: ";
             is >> pMat[i][j];
+<<<<<<< HEAD
+=======
+            // Eliminado: is.ignore(...)
+>>>>>>> upstream/17-Traits
         }
 }
 
@@ -58,7 +70,10 @@ void DeleteMatrix(TP **&pMat, size_t rows){
     delete[] pMat;
     pMat = nullptr;
 }
+<<<<<<< HEAD
 >>>>>>> upstream/11-pointers
+=======
+>>>>>>> upstream/17-Traits
 
 void DemoMatrix1();
 
