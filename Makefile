@@ -1,28 +1,33 @@
 CXX = g++
-CXXFLAGS = -std=c++2b -Wall -g -pthread # Añadido -pthread
-LDFLAGS = -pthread # Añadido -pthread
+CXXFLAGS = -std=c++17 -Wall -Wextra -g
 
-TARGET = main
-SRCS = main.cpp arit.cpp \
-       util.cpp \
-	   sorting.cpp \
-	   punteros.cpp \
-	   vector.cpp cvector.cpp \
-	   matrix.cpp \
-	   $(wildcard shapes/*.cpp) \
-	   DemoVector.cpp
-
-OBJS = $(SRCS:.cpp=.o)
+SOURCES = main.cpp \
+          item.cpp \
+          task.cpp \
+          note.cpp \
+          goal.cpp \
+          calendar.cpp \
+          printer.cpp \
+          console_printer.cpp \
+          file_printer.cpp \
+          memory_printer.cpp \
+          date.cpp \
+          habit.cpp
+OBJECTS = $(SOURCES:.cpp=.o)
+TARGET = OrganizadorPersonal---
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
-	$(CXX) $(LDFLAGS) $^ -o $@
+$(TARGET): $(OBJECTS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJECTS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJECTS) $(TARGET)
 
-.PHONY: all clean
+run: $(TARGET)
+	./$(TARGET)
+
+.PHONY: all clean run

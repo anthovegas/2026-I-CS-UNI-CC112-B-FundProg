@@ -1,31 +1,83 @@
-#include "sorting.h"
 #include "cvector.h"
-#include "util.h"
+using namespace std;
 
-void DemoCVector(){
-    CVector3<TP> v1;
-    CVector3<TP> v2(v1);
-    size_t n;
-    cout << "Ingrese nro de elementos: ";
-    cin  >> n;
+template <typename T>
+CVector<T>::CVector() : data(nullptr), size_(0), capacity_(0) {}
 
-    v1.CreateVector(n);
-    v1.ReadVector(cin);
-    v1.Sort( Mayor<TP>);
-    v1.PrintVector(cout);
-    
-    v1.Sort(&Menor<TP>);
-    v1.PrintVector(cout);
-    
-    CVector3<TP> *pV4 = nullptr;
-    pV4 = &v1;
-    pV4->Sort(&Mayor<TP>);
-    v1.PrintVector(cout);
+template <typename T>
+CVector<T>::CVector(const CVector<T>& other) : data(nullptr), size_(0), capacity_(0) {
+    if (other.capacity_ > 0) {
+        data = new T[other.capacity_];
+        capacity_ = other.capacity_;
+        size_ = other.size_;
+        for (auto i = 0; i < size_; i++) {
+            data[i] = other.data[i];
+        }
+    }
+}
 
-    CVector3<TP> *pV3 = new CVector3<TP>();
-    pV3->CreateVector(5);
-    pV3->ReadVector(cin);
-    pV3->Sort(&Mayor<TP>);
-    pV3->PrintVector(cout);
-    delete pV3;
+template <typename T>
+CVector<T>& CVector<T>::operator=(const CVector<T>& other) {
+    if (this == &other) return *this;
+
+    delete[] data;
+
+    capacity_ = other.capacity_;
+    size_ = other.size_;
+    data = (capacity_ > 0) ? new T[capacity_] : nullptr;
+    for (auto i = 0; i < size_; i++) {
+        data[i] = other.data[i];
+    }
+    return *this;
+}
+
+template <typename T>
+CVector<T>::~CVector() {
+    delete[] data;
+}
+
+template <typename T>
+void CVector<T>::grow() {
+    I newCapacity = (capacity_ == 0) ? 1 : capacity_ * 2;
+    T* newData = new T[newCapacity];
+
+    for (auto i = 0; i < size_; i++) {
+        newData[i] = data[i];
+    }
+
+    delete[] data;
+    data = newData;
+    capacity_ = newCapacity;
+}
+
+template <typename T>
+void CVector<T>::push_back(const T& value) {
+    if (size_ == capacity_) {
+        grow();
+    }
+    data[size_] = value;
+    size_++;
+}
+
+template <typename T>
+I CVector<T>::size() const { return size_; }
+
+template <typename T>
+B CVector<T>:: empty() const { return size_ == 0; }
+
+template <typename T>
+void CVector<T>::clear() { size_ = 0; }
+
+template <typename T>
+T& CVector<T>::operator[](I index) { return data[index]; }
+
+template <typename T>
+const T& CVector<T>::operator[](I index) const { return data[index]; }
+
+template <typename T>
+T& CVector<T>::at(I index) {
+    if (index < 0 || index >= size_) {
+        throw out_of_range("CVector::at- indice fuera de rango ");
+    }
+    return data[index];
 }

@@ -1,93 +1,32 @@
 #ifndef __CMATRIX_H__
 #define __CMATRIX_H__
-#include <iostream>  // cout, cin, endl
-#include <cstddef>   // size_t
-#include "types.h"
-using namespace std;
 
-template<typename TP>
-class CMatrix{
-    TP   **m_pMat;
-    size_t m_rows;
-    size_t m_cols;
+using I = int;
 
-    public:
-        CMatrix(size_t rows, size_t cols);
-        CMatrix(const CMatrix<TP> &other);
-        ~CMatrix();
+#include <stdexcept> ///////////////
 
-        void CreateMatrix(size_t rows, size_t cols);
-        void ReadMatrix(istream &is);
-        void TransformarMatriz(void (*pFunc)(TP&));
-        void PrintMatrix(ostream &os);
-        void DeleteMatrix();
+template <typename T>
+class CMatrix {
+private:
+    T* data;
+    I rows_;
+    I cols_;
+
+    I indexOf(I row, I col) const;
+
+public:
+    CMatrix(I rows, I cols, T defaultValue = T());
+    CMatrix(const CMatrix<T>& other);
+    CMatrix<T>& operator=(const CMatrix<T>& other);
+    ~CMatrix();
+
+    I rows() const;
+    I cols() const;
+
+    T& at(I row, I col);
+    const T& at(I row, I col) const;
 };
 
-template<typename TP>
-CMatrix<TP>::CMatrix(size_t rows, size_t cols){
-    m_pMat = nullptr;
-    CreateMatrix(rows, cols);
-}
-
-template<typename TP>
-CMatrix<TP>::CMatrix(const CMatrix<TP> &other){
-    m_rows = other.m_rows;
-    m_cols = other.m_cols;
-    CreateMatrix(m_rows, m_cols);
-    for(size_t i = 0 ; i < m_rows ; ++i)
-        for(size_t j = 0 ; j < m_cols ; ++j)
-            m_pMat[i][j] = other.m_pMat[i][j];
-}
-
-template<typename TP>
-CMatrix<TP>::~CMatrix(){
-    DeleteMatrix();
-}
-
-template<typename TP> 
-void CMatrix<TP>::CreateMatrix(size_t rows, size_t cols){
-    m_cols = cols;
-    m_rows = rows;
-    m_pMat = new TP*[rows];
-    for (size_t i = 0; i < rows; i++)
-        m_pMat[i] = new TP[cols];
-}
-
-template<typename TP> 
-void CMatrix<TP>::ReadMatrix(istream &is){
-    for (size_t i = 0; i < m_rows; i++)
-        for (size_t j = 0; j < m_cols; j++)
-            is >> m_pMat[i][j];
-}
-
-// Aqui luego vamos a generalizar mas este metoddo
-template<typename TP> 
-void CMatrix<TP>::TransformarMatriz(void (*pFunc)(TP&)){
-    for (size_t i = 0; i < m_rows; i++)
-        for (size_t j = 0; j < m_cols; j++)
-            pFunc(m_pMat[i][j]);
-}
-
-template<typename TP> 
-void CMatrix<TP>::PrintMatrix(ostream &os){
-    os << m_rows << " " << m_cols << endl;
-    for (size_t i = 0; i < m_rows; i++){
-        for (size_t j = 0; j < m_cols; j++)
-            os << m_pMat[i][j] << " ";
-        os << endl;
-    }
-}
-
-template<typename TP> 
-void CMatrix<TP>::DeleteMatrix(){
-    for (size_t i = 0; i < m_rows; i++)
-        delete[] m_pMat[i];
-    delete[] m_pMat;
-    m_pMat = nullptr;
-    m_rows = 0;
-    m_cols = 0;
-}
-
-void DemoCMatrix1();
+#include "cmatrix.cpp"
 
 #endif // __CMATRIX_H__
